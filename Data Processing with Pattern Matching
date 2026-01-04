@@ -1,0 +1,66 @@
+import java.util.*;
+
+public class DataProcessingExercise {
+
+    // Process user input based on its type
+    public static String processUserInput(Object input) {
+        if (input == null) {
+            return "Input is null";
+        }
+
+        // Pattern matching with instanceof
+        if (input instanceof String s) {
+            return "String input: \"" + s + "\" with length " + s.length();
+        } else if (input instanceof Integer i) {
+            return "Integer input: " + i + " squared is " + (i * i);
+        } else if (input instanceof Double d) {
+            return "Double input: " + d + " rounded: " + Math.round(d);
+        } else if (input instanceof Boolean b) {
+            return "Boolean input: " + (b ? "TRUE" : "FALSE");
+        } else if (input instanceof List<?> list) {
+            return "List input: " + list + " (size: " + list.size() + ")";
+        } else {
+            return "Unknown type: " + input.getClass().getSimpleName();
+        }
+    }
+
+    // Validate input based on type
+    public static boolean validateInput(Object input) {
+        if (input == null) return false;
+
+        if (input instanceof String s) {
+            return !s.isBlank();
+        } else if (input instanceof Integer i) {
+            return i > 0;
+        } else if (input instanceof Double d) {
+            return d > 0 && Double.isFinite(d);
+        } else if (input instanceof Boolean) {
+            return true; // always valid
+        } else if (input instanceof List<?> list) {
+            return !list.isEmpty();
+        } else {
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Object[] inputs = {
+            "Hello World",
+            42,
+            3.14159,
+            true,
+            Arrays.asList("Java", "Spring", "Angular"),
+            null,
+            "",
+            -5,
+            Double.POSITIVE_INFINITY
+        };
+
+        for (Object input : inputs) {
+            System.out.println("Input: " + input);
+            System.out.println("Valid: " + validateInput(input));
+            System.out.println("Processed: " + processUserInput(input));
+            System.out.println("---");
+        }
+    }
+}

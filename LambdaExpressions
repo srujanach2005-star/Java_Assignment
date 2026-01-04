@@ -1,0 +1,24 @@
+/**
+ * Create a lambda expression to filter a list of integers and return only even numbers.
+ * Use Predicate functional interface.
+ */
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class LambdaExpressions {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        // Predicate lambda to check if number is even
+        Predicate<Integer> isEven = n -> n % 2 == 0;
+
+        // Filter the list using the predicate and collect results
+        List<Integer> evenNumbers = numbers.stream()
+                .filter(isEven)
+                .collect(Collectors.toList());
+
+        System.out.println("Even numbers: " + evenNumbers);
+        // Expected output: [2, 4, 6, 8, 10]
+    }
+}

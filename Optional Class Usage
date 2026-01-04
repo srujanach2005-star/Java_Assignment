@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Employee {
+    private int id;
+    private String name;
+    private String department;
+
+    public Employee(int id, String name, String department) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+    }
+
+    // Getters
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getDepartment() { return department; }
+
+    @Override
+    public String toString() {
+        return String.format("Employee{id=%d, name='%s', department='%s'}",
+                id, name, department);
+    }
+}
+
+public class OptionalExercise3 {
+    private static List<Employee> employees = Arrays.asList(
+            new Employee(1, "John Doe", "IT"),
+            new Employee(2, "Jane Smith", "HR"),
+            new Employee(3, "Bob Johnson", "Finance")
+    );
+
+    // Implemented using Optional + Stream
+    public static Optional<Employee> findEmployeeById(int id) {
+        return employees.stream()
+                .filter(emp -> emp.getId() == id)
+                .findFirst();   // returns Optional<Employee>
+    }
+
+    public static void main(String[] args) {
+        // Test existing employee
+        Optional<Employee> emp1 = findEmployeeById(2);
+        emp1.ifPresentOrElse(
+                System.out::println,
+                () -> System.out.println("Employee not found")
+        );
+
+        // Test non-existing employee
+        Optional<Employee> emp2 = findEmployeeById(999);
+        String result = emp2.map(Employee::getName)
+                .orElse("Unknown Employee");
+        System.out.println("Employee name: " + result);
+    }
+}

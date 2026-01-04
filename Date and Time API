@@ -1,0 +1,53 @@
+import java.time.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
+class EmployeeWithAge {
+    private String name;
+    private LocalDate birthDate;
+
+    public EmployeeWithAge(String name, String birthDate) {
+        this.name = name;
+        this.birthDate = LocalDate.parse(birthDate);
+    }
+
+    public String getName() { return name; }
+    public LocalDate getBirthDate() { return birthDate; }
+
+    // Calculate age using Period
+    public int getAge() {
+        return Period.between(birthDate, LocalDate.now()).getYears();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (Age: %d)", name, getAge());
+    }
+}
+
+public class DateTimeExercise5 {
+    public static void main(String[] args) {
+        List<EmployeeWithAge> employees = Arrays.asList(
+            new EmployeeWithAge("John", "1990-05-15"),
+            new EmployeeWithAge("Jane", "1985-12-20"),
+            new EmployeeWithAge("Bob", "1992-03-10"),
+            new EmployeeWithAge("Alice", "1988-08-25")
+        );
+
+        // Find employees above age 30
+        List<EmployeeWithAge> above30 = employees.stream()
+            .filter(e -> e.getAge() > 30)
+            .collect(Collectors.toList());
+
+        System.out.println("Employees above 30:");
+        above30.forEach(System.out::println);
+
+        // Find average age
+        double averageAge = employees.stream()
+            .mapToInt(EmployeeWithAge::getAge)
+            .average()
+            .orElse(0.0);
+
+        System.out.println("Average age: " + averageAge);
+    }
+}

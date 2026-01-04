@@ -1,0 +1,51 @@
+/**
+ * Create complex SQL queries using Text Blocks for job portal database operations.
+ */
+public class SQLQueryExercise {
+
+    // Complex SELECT query for job search
+    public static String getJobSearchQuery() {
+        return """
+                SELECT j.job_id, j.title, j.location, j.salary, c.company_name
+                FROM jobs j
+                JOIN companies c ON j.company_id = c.company_id
+                WHERE j.location = 'Hyderabad'
+                  AND j.salary >= 500000
+                  AND j.title LIKE '%Developer%'
+                ORDER BY j.salary DESC, j.title ASC;
+                """;
+    }
+
+    // INSERT query for new job posting
+    public static String getInsertJobQuery() {
+        return """
+                INSERT INTO jobs (job_id, title, description, location, salary, company_id, posted_date)
+                VALUES (101, 'Full Stack Developer', 'Develop full-stack web applications',
+                        'Hyderabad', 1000000, 1, CURRENT_DATE);
+                """;
+    }
+
+    // Analytical query for job statistics
+    public static String getJobStatsQuery() {
+        return """
+                SELECT c.company_name, COUNT(j.job_id) AS total_jobs,
+                       AVG(j.salary) AS avg_salary, MAX(j.salary) AS max_salary
+                FROM jobs j
+                JOIN companies c ON j.company_id = c.company_id
+                GROUP BY c.company_name
+                HAVING COUNT(j.job_id) >= 5
+                ORDER BY avg_salary DESC;
+                """;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Job Search Query:");
+        System.out.println(getJobSearchQuery());
+
+        System.out.println("\nInsert Job Query:");
+        System.out.println(getInsertJobQuery());
+
+        System.out.println("\nJob Statistics Query:");
+        System.out.println(getJobStatsQuery());
+    }
+}

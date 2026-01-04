@@ -1,0 +1,55 @@
+/**
+ * Create a Record for a Student with subjects as a List.
+ * Implement methods to calculate average marks and find highest scoring subject.
+ */
+import java.util.*;
+
+record Subject(String name, int marks) {}
+
+public record Student(String name, int rollNumber, List<Subject> subjects) {
+
+    // Defensive copying in constructor
+    public Student {
+        if (subjects == null || subjects.isEmpty()) {
+            throw new IllegalArgumentException("Subjects list cannot be null or empty");
+        }
+        subjects = List.copyOf(subjects); // immutable copy
+    }
+
+    // Calculate average marks
+    public double getAverageMarks() {
+        return subjects.stream()
+                       .mapToInt(Subject::marks)
+                       .average()
+                       .orElse(0.0);
+    }
+
+    // Find highest scoring subject
+    public Optional<Subject> getHighestScoringSubject() {
+        return subjects.stream()
+                       .max(Comparator.comparingInt(Subject::marks));
+    }
+
+    // Check if student passed (average >= 40)
+    public boolean hasPassed() {
+        return getAverageMarks() >= 40;
+    }
+}
+
+class StudentTest {
+    public static void main(String[] args) {
+        List<Subject> subjects = Arrays.asList(
+            new Subject("Math", 85),
+            new Subject("Physics", 78),
+            new Subject("Chemistry", 92),
+            new Subject("English", 75)
+        );
+
+        Student student = new Student("Alice Johnson", 101, subjects);
+
+        System.out.println("Student: " + student.name());
+        System.out.println("Average: " + student.getAverageMarks());
+        System.out.println("Highest: " + student.getHighestScoringSubject().orElse(null));
+        System.out.println("Passed: " + student.hasPassed());
+    }
+}

@@ -1,0 +1,91 @@
+/**
+ * Use pattern matching with instanceof to calculate areas of different shapes.
+ */
+abstract class Shape {
+    abstract String getType();
+}
+
+class Circle extends Shape {
+    private final double radius;
+
+    public Circle(double radius) { this.radius = radius; }
+    public double getRadius() { return radius; }
+
+    @Override
+    String getType() { return "Circle"; }
+}
+
+class Rectangle extends Shape {
+    private final double length, width;
+
+    public Rectangle(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    public double getLength() { return length; }
+    public double getWidth() { return width; }
+
+    @Override
+    String getType() { return "Rectangle"; }
+}
+
+class Triangle extends Shape {
+    private final double base, height;
+
+    public Triangle(double base, double height) {
+        this.base = base;
+        this.height = height;
+    }
+
+    public double getBase() { return base; }
+    public double getHeight() { return height; }
+
+    @Override
+    String getType() { return "Triangle"; }
+}
+
+public class PatternMatchingShapes {
+
+    // Calculate area using pattern matching with instanceof
+    public static double calculateArea(Shape shape) {
+        if (shape instanceof Circle c) {
+            return Math.PI * c.getRadius() * c.getRadius();
+        } else if (shape instanceof Rectangle r) {
+            return r.getLength() * r.getWidth();
+        } else if (shape instanceof Triangle t) {
+            return 0.5 * t.getBase() * t.getHeight();
+        } else {
+            throw new IllegalArgumentException("Unknown shape type");
+        }
+    }
+
+    // Get descriptive string using pattern matching
+    public static String getShapeDescription(Shape shape) {
+        if (shape instanceof Circle c) {
+            return "Shape: Circle with radius " + c.getRadius();
+        } else if (shape instanceof Rectangle r) {
+            return "Shape: Rectangle with length " + r.getLength() +
+                   " and width " + r.getWidth();
+        } else if (shape instanceof Triangle t) {
+            return "Shape: Triangle with base " + t.getBase() +
+                   " and height " + t.getHeight();
+        } else {
+            return "Unknown Shape";
+        }
+    }
+
+    public static void main(String[] args) {
+        Shape[] shapes = {
+            new Circle(5.0),
+            new Rectangle(4.0, 6.0),
+            new Triangle(8.0, 3.0)
+        };
+
+        for (Shape shape : shapes) {
+            System.out.println(getShapeDescription(shape));
+            System.out.println("Area: " + calculateArea(shape));
+            System.out.println();
+        }
+    }
+}

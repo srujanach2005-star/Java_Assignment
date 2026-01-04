@@ -1,0 +1,58 @@
+/**
+ * Create HTML templates using Text Blocks for a job posting website.
+ */
+public class HTMLTemplateExercise {
+
+    // Create a method that returns HTML for job card using text blocks
+    public static String createJobCard(String title, String company, String location, String salary) {
+        return """
+                
+                <div class="job-card">
+                    <h2>%s</h2>
+                    <p><strong>Company:</strong> %s</p>
+                    <p><strong>Location:</strong> %s</p>
+                    <p><strong>Salary:</strong> %s</p>
+                    <button>Apply Now</button>
+                </div>
+                """.formatted(title, company, location, salary);
+    }
+
+    // Create email template using text blocks
+    public static String createApplicationEmail(String candidateName, String jobTitle, String companyName) {
+        return """
+                Dear Hiring Manager,
+
+                My name is %s, and I am writing to apply for the position of %s at %s.
+                I believe my skills and experience make me a strong candidate for this role.
+
+                Please find my resume attached for your review.
+                I look forward to the opportunity to discuss my application.
+
+                Thank you for your time and consideration.
+
+                Sincerely,
+                %s
+                """.formatted(candidateName, jobTitle, companyName, candidateName);
+    }
+
+    public static void main(String[] args) {
+        String jobCard = createJobCard(
+                "Full Stack Developer",
+                "TechCorp Solutions",
+                "Hyderabad",
+                "₹8-12 LPA"
+        );
+
+        String email = createApplicationEmail(
+                "John Doe",
+                "Java Developer",
+                "Innovation Labs"
+        );
+
+        System.out.println("Job Card HTML:");
+        System.out.println(jobCard);
+
+        System.out.println("\nApplication Email:");
+        System.out.println(email);
+    }
+}
